@@ -1,17 +1,19 @@
 const mix = require('laravel-mix');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the CSS
- | file for the application as well as bundling up all the JS files.
- |
- */
+// JS compilation
+mix.js('resources/js/app.js', 'public/laralite/js')
+   .js('resources/js/custom.js', 'public/laralite/js') // You can add your custom JS here
+   .extract([
+       'jquery', 'bootstrap', 'admin-lte', 'select2', 
+       'bootstrap-datepicker', 'datatables.net-bs4', 
+       'toastr', 'bootstrap-datetime-picker', 'sweetalert2'
+   ]);
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+// CSS compilation
+mix.sass('resources/sass/app.scss', 'public/laralite/css')
+   .sass('resources/sass/custom.scss', 'public/laralite/css');
+
+// Enable versioning for cache busting in production
+if (mix.inProduction()) {
+    mix.version();
+}
